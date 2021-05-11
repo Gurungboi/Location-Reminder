@@ -34,10 +34,6 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_authentication)
-
-//          If the user was authenticated, send him to RemindersActivity
-//        observeAuthenticationState()
-
         //Call launchSignInFlow when authenticationButton is pressed
         binding.authenticationButton.setOnClickListener {
             launchSignInFlow()
