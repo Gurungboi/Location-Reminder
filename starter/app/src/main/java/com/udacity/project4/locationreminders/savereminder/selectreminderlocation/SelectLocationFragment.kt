@@ -38,6 +38,7 @@ import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.BuildConfig
 import org.koin.android.ext.android.inject
 import org.koin.core.logger.KOIN_TAG
+import java.util.*
 
 //OnMapReadyCallback Interface must be implemented that interfaes with onMapReady method.
 class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
@@ -143,6 +144,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         setPoiClick(map)
 
         setMapStyle(map)
+
+        setMapLongClick(map)
     }
 
     //POI (Point of Interest) that clicks and sets a Pin displaying POI name.
@@ -178,6 +181,27 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             Log.e(TAG, "Can't find Style. Error", e)
         }
     }
+
+    private fun setMapLongClick(map: GoogleMap) {
+        map.setOnMapLongClickListener { latLng ->
+            // A Snippet is Additional text that's displayed below the title.
+            val snippet = String.format(
+                Locale.getDefault(),
+                "Lat: %1$.5f, Long: %2$.5f",
+                latLng.latitude,
+                latLng.longitude
+            )
+            map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title(getString(R.string.dropped_pin))
+                    .snippet(snippet)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+
+            )
+        }
+    }
+
 
     //    /*
 //    * Determines if the App has the appropriate permission across Android Q and all other versions.
