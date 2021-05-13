@@ -50,13 +50,13 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private lateinit var map: GoogleMap
 
     private val runningQorLater =
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_select_location, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_select_location, container, false)
 
         binding.viewModel = _viewModel
         binding.lifecycleOwner = this
@@ -108,8 +108,8 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         } else {
             _viewModel.showErrorMessage.postValue(getString(R.string.err_select_location))
             ActivityCompat.requestPermissions(
-                requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                REQUEST_TURN_LOCATION_ON
+                    requireActivity(), arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    REQUEST_TURN_LOCATION_ON
             )
         }
     }
@@ -151,9 +151,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
             binding.saveLocationButton.visibility = View.VISIBLE
 
             val poiMarket = map.addMarker(
-                MarkerOptions().position(poi.latLng)
-                    .title(poi.name)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                    MarkerOptions().position(poi.latLng)
+                            .title(poi.name)
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
             )
             val zoom = 16f
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(poi.latLng, zoom))
@@ -169,7 +169,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
         try {
             //Customize the Base Map Style using a JSON object defined in the raw res file.
             val success = map.setMapStyle(
-                MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
+                    MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style)
             )
             if (!success) {
                 Log.e(TAG, "Style Parsing Failed.")
@@ -186,17 +186,17 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     private fun foregroundAndBackgroundLocationPermissionApproved(): Boolean {
         val foregroundLocationApproved = (
                 PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
-                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                        requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
                 ))
         val backgroundLocationApproved =
-            if (runningQorLater) {
-                PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-            } else {
-                true
-            }
+                if (runningQorLater) {
+                    PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    )
+                } else {
+                    true
+                }
         return foregroundLocationApproved && backgroundLocationApproved
     }
 
@@ -204,30 +204,30 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
 //     * background permission as well.
 //     */
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         Log.d(TAG, "onRequestPermissionResult")
         if (
-            grantResults.isEmpty() ||
-            grantResults[LOCATION_PERMISSION_INDEX] == PackageManager.PERMISSION_DENIED ||
-            (requestCode == REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE &&
-                    grantResults[BACKGROUND_LOCATION_PERMISSION_INDEX] ==
-                    PackageManager.PERMISSION_DENIED)
+                grantResults.isEmpty() ||
+                grantResults[LOCATION_PERMISSION_INDEX] == PackageManager.PERMISSION_DENIED ||
+                (requestCode == REQUEST_FOREGROUND_AND_BACKGROUND_PERMISSION_RESULT_CODE &&
+                        grantResults[BACKGROUND_LOCATION_PERMISSION_INDEX] ==
+                        PackageManager.PERMISSION_DENIED)
         ) {
             Snackbar.make(
-                binding.mapLayout,
-                R.string.permission_denied_explanation,
-                Snackbar.LENGTH_LONG
+                    binding.mapLayout,
+                    R.string.permission_denied_explanation,
+                    Snackbar.LENGTH_LONG
             )
-                .setAction(R.string.settings) {
-                    startActivity(Intent().apply {
-                        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                        data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
-                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    })
-                }.show()
+                    .setAction(R.string.settings) {
+                        startActivity(Intent().apply {
+                            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            data = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null)
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        })
+                    }.show()
         } else {
             enableLocation()
         }

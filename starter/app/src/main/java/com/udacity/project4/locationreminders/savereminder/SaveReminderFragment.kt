@@ -45,7 +45,7 @@ class SaveReminderFragment : BaseFragment() {
     private lateinit var geofenceClient: GeofencingClient
 
     private val runningQorLater =
-        android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
+            android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q
 
     private val geofencePendingIntent: PendingIntent by lazy {
         val intent = Intent(requireContext(), GeofenceBroadcastReceiver::class.java)
@@ -54,11 +54,11 @@ class SaveReminderFragment : BaseFragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(inflater, R.layout.fragment_save_reminder, container, false)
+                DataBindingUtil.inflate(inflater, R.layout.fragment_save_reminder, container, false)
 
         setDisplayHomeAsUpEnabled(true)
 
@@ -79,7 +79,7 @@ class SaveReminderFragment : BaseFragment() {
         binding.selectLocation.setOnClickListener {
             //            Navigate to another fragment to get the user location
             _viewModel.navigationCommand.value =
-                NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
+                    NavigationCommand.To(SaveReminderFragmentDirections.actionSaveReminderFragmentToSelectLocationFragment())
         }
         binding.saveReminder.setOnClickListener {
             val title = _viewModel.reminderTitle.value
@@ -103,28 +103,28 @@ class SaveReminderFragment : BaseFragment() {
     private fun addGeofence(reminder: ReminderDataItem) {
         //Build the Geofence Object
         val geofence = Geofence.Builder()
-            //Set the request ID, string to identify the geofence.
-            .setRequestId(reminder.id)
-            //Set the Circular Region of this Geofence
-            .setCircularRegion(reminder.latitude!!, reminder.longitude!!, GEO_FENCE_METERS_RADIUS)
-            //Set the Expiration Duration of this Geofence. Automatically removed after a period of time
-            // if we want to never Expire we use Geofence.NEVER_EXPIRE or
-            // GEOFENCE_EXPIRATION_IN_MILLISECONDS to custom it
-            .setExpirationDuration(Geofence.NEVER_EXPIRE)
-            // Alerts are only generated for this transition. We can track Entry, Dwell, Exit.
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
-            .build()
+                //Set the request ID, string to identify the geofence.
+                .setRequestId(reminder.id)
+                //Set the Circular Region of this Geofence
+                .setCircularRegion(reminder.latitude!!, reminder.longitude!!, GEO_FENCE_METERS_RADIUS)
+                //Set the Expiration Duration of this Geofence. Automatically removed after a period of time
+                // if we want to never Expire we use Geofence.NEVER_EXPIRE or
+                // GEOFENCE_EXPIRATION_IN_MILLISECONDS to custom it
+                .setExpirationDuration(Geofence.NEVER_EXPIRE)
+                // Alerts are only generated for this transition. We can track Entry, Dwell, Exit.
+                .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER)
+                .build()
 
         //Build the Geofence request
         val geofencingRequest = GeofencingRequest.Builder()
-            /** INITIAL_TRIGGER ENTER flag indicates that geofencing service should trigger a
-             * GEOFENCE_TRANSITION_ENTER notification when the geofence is added, and if the device
-             * is already inside that geofence
-             */
-            .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
-            //Add the geofences to be monitored by the geofence service
-            .addGeofence(geofence)
-            .build()
+                /** INITIAL_TRIGGER ENTER flag indicates that geofencing service should trigger a
+                 * GEOFENCE_TRANSITION_ENTER notification when the geofence is added, and if the device
+                 * is already inside that geofence
+                 */
+                .setInitialTrigger(GeofencingRequest.INITIAL_TRIGGER_ENTER)
+                //Add the geofences to be monitored by the geofence service
+                .addGeofence(geofence)
+                .build()
 
         //First we remove any existing Geofences that uses PendingIntent
         geofenceClient.removeGeofences(geofencePendingIntent)?.run {
@@ -159,17 +159,17 @@ class SaveReminderFragment : BaseFragment() {
     private fun foregroundAndBackgroundLocationPermissionApproved(): Boolean {
         val foregroundLocationApproved = (
                 PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
-                    requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
+                        requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
                 ))
         val backgroundLocationApproved =
-            if (runningQorLater) {
-                PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                )
-            } else {
-                true
-            }
+                if (runningQorLater) {
+                    PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                    )
+                } else {
+                    true
+                }
         return foregroundLocationApproved && backgroundLocationApproved
     }
 
@@ -211,16 +211,16 @@ class SaveReminderFragment : BaseFragment() {
             if (exception is ResolvableApiException && resolve) {
                 try {
                     exception.startResolutionForResult(
-                        requireActivity(),
-                        REQUEST_TURN_LOCATION_ON
+                            requireActivity(),
+                            REQUEST_TURN_LOCATION_ON
                     )
                 } catch (sendEx: IntentSender.SendIntentException) {
                     Log.d(TAG, "Error getting location Settings" + sendEx.message)
                 }
             } else {
                 Snackbar.make(
-                    binding.saveReminderLayout,
-                    R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
+                        binding.saveReminderLayout,
+                        R.string.location_required_error, Snackbar.LENGTH_INDEFINITE
                 ).setAction(android.R.string.ok) {
                     checkDeviceLocationSettings()
                 }.show()

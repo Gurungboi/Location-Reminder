@@ -34,6 +34,10 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_authentication)
+
+//          If the user was authenticated, send him to RemindersActivity
+//        observeAuthenticationState()
+
         //Call launchSignInFlow when authenticationButton is pressed
         binding.authenticationButton.setOnClickListener {
             launchSignInFlow()
@@ -74,17 +78,17 @@ class AuthenticationActivity : AppCompatActivity() {
         // Give users the option to sign in / register with their email or Google account.
         // If users choose to register with their email, they will need to create a password as well.
         val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().build(), AuthUI.IdpConfig.GoogleBuilder().build()
-            //Here we can provide more ways to Authenticate users like PhoneBuilder() or FaceBookBuilder()
+                AuthUI.IdpConfig.EmailBuilder().build(), AuthUI.IdpConfig.GoogleBuilder().build()
+                //Here we can provide more ways to Authenticate users like PhoneBuilder() or FaceBookBuilder()
         )
         //Create and Launch Sign-In Intent
         //We listen to the Response with the SIGN_IN_RESULT_CODE
         startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setLogo(R.drawable.ic_pin)
-                .setAvailableProviders(providers).build(),
-            AuthenticationActivity.SIGN_IN_RESULT_CODE
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setLogo(R.drawable.ic_pin)
+                        .setAvailableProviders(providers).build(),
+                AuthenticationActivity.SIGN_IN_RESULT_CODE
         )
     }
 }

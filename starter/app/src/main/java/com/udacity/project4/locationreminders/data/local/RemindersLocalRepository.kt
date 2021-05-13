@@ -14,8 +14,8 @@ import kotlinx.coroutines.*
  * @param ioDispatcher a coroutine dispatcher to offload the blocking IO tasks
  */
 class RemindersLocalRepository(
-    private val remindersDao: RemindersDao,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+        private val remindersDao: RemindersDao,
+        private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ReminderDataSource {
 
     /**
@@ -35,9 +35,9 @@ class RemindersLocalRepository(
      * @param reminder the reminder to be inserted
      */
     override suspend fun saveReminder(reminder: ReminderDTO) =
-        withContext(ioDispatcher) {
-            remindersDao.saveReminder(reminder)
-        }
+            withContext(ioDispatcher) {
+                remindersDao.saveReminder(reminder)
+            }
 
     /**
      * Get a reminder by its id

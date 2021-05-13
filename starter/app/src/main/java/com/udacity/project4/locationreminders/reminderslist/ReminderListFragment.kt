@@ -21,14 +21,14 @@ class ReminderListFragment : BaseFragment() {
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         binding =
-            DataBindingUtil.inflate(
-                inflater,
-                R.layout.fragment_reminders, container, false
-            )
+                DataBindingUtil.inflate(
+                        inflater,
+                        R.layout.fragment_reminders, container, false
+                )
         binding.viewModel = _viewModel
 
         setHasOptionsMenu(true)
@@ -61,18 +61,18 @@ class ReminderListFragment : BaseFragment() {
     private fun navigateToAddReminder() {
         //use the navigationCommand live data to navigate between the fragments
         _viewModel.navigationCommand.postValue(
-            NavigationCommand.To(
-                ReminderListFragmentDirections.toSaveReminder()
-            )
+                NavigationCommand.To(
+                        ReminderListFragmentDirections.toSaveReminder()
+                )
         )
     }
 
     private fun setupRecyclerView() {
         val adapter = RemindersListAdapter { reminder ->
             startActivity(
-                Intent(requireContext(), ReminderDescriptionActivity::class.java).apply {
-                    putExtra(EXTRA_ReminderDataItem, reminder)
-                }
+                    Intent(requireContext(), ReminderDescriptionActivity::class.java).apply {
+                        putExtra(EXTRA_ReminderDataItem, reminder)
+                    }
             )
         }
 //        setup the recycler view using the extension function
@@ -85,12 +85,12 @@ class ReminderListFragment : BaseFragment() {
                 //Logout Intent. Will redirect the user to the Login Screen.
                 context?.let {
                     AuthUI.getInstance().signOut(it)
-                        .addOnCompleteListener {
-                            val intent = Intent(activity, AuthenticationActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            startActivity(intent)
-                        }
+                            .addOnCompleteListener {
+                                val intent = Intent(activity, AuthenticationActivity::class.java)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                startActivity(intent)
+                            }
                 }
             }
             R.id.deleteAll -> {
