@@ -24,7 +24,7 @@ import java.net.URL
  * Extension function to setup the RecyclerView
  */
 fun <T> RecyclerView.setup(
-        adapter: BaseRecyclerViewAdapter<T>
+    adapter: BaseRecyclerViewAdapter<T>
 ) {
     this.apply {
         layoutManager = LinearLayoutManager(this.context)
@@ -41,7 +41,7 @@ fun Fragment.setTitle(title: String) {
 fun Fragment.setDisplayHomeAsUpEnabled(bool: Boolean) {
     if (activity is AppCompatActivity) {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(
-                bool
+            bool
         )
     }
 }
