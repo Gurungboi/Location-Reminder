@@ -9,7 +9,14 @@ class FakeDataSource(var reminders: MutableList<ReminderDTO>? = mutableListOf())
     private var shouldReturnError = false
 //: Create a fake data source to act as a double to the real data source
 
+    fun setReturnError(value: Boolean) {
+        shouldReturnError = value
+    }
+
     override suspend fun getReminders(): Result<List<ReminderDTO>> {
+        if (shouldReturnError) {
+            return Result.Error("Test Exception")
+        }
         reminders?.let { return Result.Success(ArrayList(it)) }
         return Result.Error("Task not Found")
     }

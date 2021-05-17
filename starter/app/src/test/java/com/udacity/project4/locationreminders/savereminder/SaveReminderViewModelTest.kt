@@ -1,5 +1,6 @@
 package com.udacity.project4.locationreminders.savereminder
 
+import android.content.Context
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
@@ -23,6 +24,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.stopKoin
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowPackageManager.resources
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -80,6 +82,7 @@ class SaveReminderViewModelTest {
     @Test
     fun check_loading() = mainCoroutineRule.runBlockingTest {
         //Given a new Reminder and a fresh ViewModel
+        var  context: Context = ApplicationProvider.getApplicationContext()
         val reminder = ReminderDataItem(
             "Title", "Description", "Florida",
             27.3, -92.8
@@ -95,6 +98,7 @@ class SaveReminderViewModelTest {
         mainCoroutineRule.resumeDispatcher()
         //Gets hidden
         assertThat(viewModel.showLoading.getOrAwaitValue(), `is`(false))
+        assertEquals(viewModel.showToast.getOrAwaitValue(), (context.getString(R.string.reminder_saved)))
     }
 
 }
