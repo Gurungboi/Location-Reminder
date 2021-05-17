@@ -151,6 +151,7 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     //POI (Point of Interest) that clicks and sets a Pin displaying POI name.
     private fun setPoiClick(map: GoogleMap) {
         map.setOnPoiClickListener { poi ->
+            map.clear()
             binding.saveLocationButton.visibility = View.VISIBLE
 
             val poiMarket = map.addMarker(
@@ -183,7 +184,9 @@ class SelectLocationFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private fun setMapLongClick(map: GoogleMap) {
-        map.setOnMapLongClickListener { latLng ->
+        map.setOnMapClickListener { latLng ->
+            map.clear()
+
             // A Snippet is Additional text that's displayed below the title.
             val snippet = String.format(
                 Locale.getDefault(),

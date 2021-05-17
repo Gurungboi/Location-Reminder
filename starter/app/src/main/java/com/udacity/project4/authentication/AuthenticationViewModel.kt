@@ -6,7 +6,8 @@ import androidx.lifecycle.map
 class AuthenticationViewModel: ViewModel() {
 
     enum class AuthenticationState{
-        AUTHENTICATED, UNAUTHENTICATED}
+        AUTHENTICATED, UNAUTHENTICATED
+    }
 
     /**
      * authenticationState variable based on the FirebaseUserLiveData Object.

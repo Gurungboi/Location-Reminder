@@ -24,11 +24,6 @@ class AuthenticationActivity : AppCompatActivity() {
     //We get a reference to the ViewModel scoped to this Fragment
     private val viewModel by viewModels<AuthenticationViewModel>()
 
-    companion object {
-        val TAG = AuthenticationActivity::class.java.simpleName
-        const val SIGN_IN_RESULT_CODE = 1001
-    }
-
     private lateinit var binding: ActivityAuthenticationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,5 +82,10 @@ class AuthenticationActivity : AppCompatActivity() {
                 .setAvailableProviders(providers).build(),
             AuthenticationActivity.SIGN_IN_RESULT_CODE
         )
+    }
+
+    companion object {
+        val TAG = AuthenticationActivity::class.java.simpleName
+        const val SIGN_IN_RESULT_CODE = 1001
     }
 }
