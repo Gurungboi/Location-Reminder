@@ -29,7 +29,7 @@ class AuthenticationActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_authentication)
-
+        observeAuthenticationState()
         //Call launchSignInFlow when authenticationButton is pressed
         binding.authenticationButton.setOnClickListener {
             launchSignInFlow()

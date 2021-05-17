@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.udacity.project4.R
 import com.udacity.project4.locationreminders.MainCoroutineRule
 import com.udacity.project4.locationreminders.data.FakeDataSource
+import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.dto.Result
 import com.udacity.project4.locationreminders.getOrAwaitValue
 import com.udacity.project4.locationreminders.reminderslist.ReminderDataItem
@@ -58,6 +59,21 @@ class SaveReminderViewModelTest {
     fun cleanUpData() = runBlocking {
         remindersRepository.deleteAllReminders()
         stopKoin()
+    }
+
+    @Test
+    fun getErrorReminder() = runBlocking {
+        //given
+        val reminder = ReminderDTO("", "Description", "Florida",
+            0.0, 0.0)
+        remindersRepository.setReturnError(true)
+        remindersRepository.saveReminder(reminder)
+
+        //When
+        val loadedlist = remindersRepository.getReminders()
+
+        //Then
+        assertThat((loadedlist as Result.Error),`is`(Result.Error("Test Exception")))
     }
 
     @Test
